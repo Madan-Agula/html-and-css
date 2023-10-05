@@ -14,6 +14,9 @@
     }
   </style>
   <body>
+    <button onclick="getUserLocation()">Get my location</button>
+    <div id="location"></div>
+    <br><br><br>
     <div
       id="container"
       ondragover="allowdrag(event)"
@@ -31,6 +34,26 @@
     />
   </body>
   <script>
+       function getUserLocation(){
+        alert("hello")
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition,showError)
+        }
+        else{
+            document.getElementById("location").innerHTML="Geolocation is not supported by this browser"
+        }
+    }
+    function showPosition(position){
+        document.getElementById("location").innerHTML="Latitude"
+        +position.coords.latitude+"<br>"+"Longitude:"+position.coords.longitude
+
+    }
+    function showError(error){
+        console.log(error)
+        document.getElementById("location").innerHTML="Error:"+ error.message 
+        
+
+    }
     function allowdrag(e) {
       e.preventDefault();
     }
