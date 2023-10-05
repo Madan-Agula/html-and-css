@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="productname" />
+    <input type="number" id="productprice" />
+    <button type="submit" onclick="handleSubmit()">submit</button>
+    <div id="output"></div>
+  </body>
+  <script>
+    function showDetails() {
+      let cart = localStorage.getItem("cart");
+      cart = JSON.parse(cart);
+      let output = document.getElementById("output");
+      if (cart == null || cart.length == 0) {
+        output.innerHTML = "<h1>cart is empty</h1>";
+      } else {
+        let s = `style='border: 1px solid black'`;
+        let table = "<table style='border: 1px solid black; border-collapse: collapse;'>";
+        table += `<tr ${s}><th ${s}>ProductName</th><th ${s}>ProductPrice</th></tr>`;
+        for (let i = 0; i < cart.length; i++) {
+          table += `<tr ${s}><td ${s}>${cart[i].name}</td><td ${s}>${cart[i].price}</td></tr>`;
+        }
+        table += "</table>";
+        output.innerHTML = table;
+      }
+    }
+    function handleSubmit() {
+      let cart = localStorage.getItem("cart");
+      if (cart == null) {
+        cart = [];
+      } else {
+        cart = JSON.parse(cart);
+      }
+      let productname = document.getElementById("productname").value;
+      let productprice = document.getElementById("productprice").value;
+      let product = {
+        name: productname,
+        price: productprice,
+      };
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      showDetails();
+      document.getElementById("productname").value = "";
+      document.getElementById("productprice").value = "";
+    }
+    showDetails();
+  </script>
+</html>
